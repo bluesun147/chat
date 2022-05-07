@@ -23,6 +23,20 @@ app.get('/', (req, res) => {
     })
 })
 
+// on은 소켓이서 해당 이벤트 받으면 콜백 함수 실행됨.
+// io.sockets는 접속되는 모든 소켓
+io.sockets.on('connection', (socket) => {
+    console.log('유저 접속 됨');
+
+    socket.on('send', (data) => {
+        console.log(`전달된 메시지 : ${data.msg}`);
+    });
+
+    socket.on('disconnect', () => { // 연결되어 있던 소켓과 접속 끊어지면 자동으로 실행 됨
+        console.log('접속 종료');
+    })
+})
+
 server.listen(3000, () => {
     console.log('서버 실행 중');
 })
